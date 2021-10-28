@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="Ja">
+<head>
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <title>私はどういうコナ？</title>
+    <script src="https://unpkg.com/vue@2.5.22/dist/vue.js"></script>
+    <link rel="stylesheet" href="./theme.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <!--container-->
+<section class="container">
+
+	<!--questionBox-->
+	<div class="questionBox" id="app">
+
+		<!-- transition -->
+		<transition :duration="{ enter: 500, leave: 300 }" enter-active-class="animated zoomIn" leave-active-class="animated zoomOut" mode="out-in">
+
+			<!--qusetionContainer-->
+			<div class="questionContainer" v-if="questionIndex<quiz.questions.length" v-bind:key="questionIndex">
+
+				<header>
+					<h1 class="title is-6">私はどういうコナ？</h1>
+					<!--progress-->
+					<div class="progressContainer">
+						<progress class="progress is-info is-small" :value="(questionIndex/quiz.questions.length)*100" max="100">{{(questionIndex/quiz.questions.length)*100}}%</progress>
+					</div>
+					<!--/progress-->
+				</header>
+
+				<!-- quizOptions -->
+            <div id="app" v-cloak>
+
+              <div class="row">
+
+                  <div class="callout">
+
+                    <div v-for="(question, index) in quiz.questions" :key="index" class="questions">
+                      <!-- Hide all questions, show only the one with index === to current question index -->
+                      <div v-show="index === questionIndex">
+                        <h3 class="questionTitle">{{ question.text}}</h3>
+                        <ol>
+                          <!-- for each response of the current question -->
+                         <div class="optionContainer">
+				         <div class="option" v-for="(response, index) in quiz.questions[questionIndex].responses" @click="selectOption(index)" :class="{ 'is-selected': userResponses[questionIndex] == index}" :key="index" v-on:click="next">
+                                   {{ response.text}}
+                          </div>
+                          </div> 
+
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                <!-- /quizOptions -->
+
+                </div>
+             </div>
+				<!--quizFooter: navigation and progress-->
+				<footer class="questionFooter">
+
+					<!--pagination-->
+					<nav class="pagination" role="navigation" aria-label="pagination">
+
+					</nav>
+					<!--/pagination-->
+
+				</footer>
+				<!--/quizFooter-->
+
+			</div>
+			<!--/questionContainer-->
+
+			<!--quizCompletedResult-->
+            <div class="quizCompleted" id="app" v-cloak>
+                <h3 class="present">私のバンドは</h3>
+                
+                
+                <!-- result 1 -->
+                <template v-if="[35, 34, 33, 32, 31, 30].includes(TotalValue())">
+                    <h3 class="presentTitle">サンレイン</h3>
+                    <br>
+                    <img src="./assets/resultOne.png" alt="resultOne" width="340px" height="170px"/>
+                    <br>
+                    <p class="letter">
+                        サンレインに似合うあなた，
+                        <br>
+                        もしかして，コナで「しょうもない」ってよくいわれてませんか？もしくは，わせ高出身では？ガンガン激しい曲が好きそうなあなた，ベース引きながら回る癖があるかもしれません。自分のパート以外にもできるのが多くある有能な人なら，キャパを極めてコナラジオのキャパランキング1位を目指してみましょう。
+                        <br>
+                        <br>
+                        あ，因みにお酒は適量がいいです。
+                    </p>
+                    <hr height="5px" color="#74a33d">
+                    <p class="share">Twitterに共有</p>
+                    <!-- Sharingbutton Twitter -->
+                        <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=%ED%9E%88%EC%B9%B4%EB%A3%A8%EB%A1%9C%EB%B6%80%ED%84%B0%20%EB%8F%84%EC%B0%A9%ED%95%9C%20%ED%81%AC%EB%A6%AC%EC%8A%A4%EB%A7%88%EC%8A%A4%20%EC%84%A0%EB%AC%BC%2C%20%EB%82%98%EC%9D%98%20%EC%84%A0%EB%AC%BC%EC%9D%80%20%EC%84%A0%EC%83%9D%EB%8B%98%EC%9D%84%20%EB%8B%AE%EC%9D%80%20%EB%88%88%EC%82%AC%EB%9E%8C&amp;url=https%3A%2F%2Fl1ghtn1ghtmare.netlify.app%2F" target="_blank" rel="noopener" aria-label="">
+                          <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+                            </div>
+                          </div>
+                        </a>
+                </template>
+                
+                <!-- result 2 -->
+                <template v-if="[29, 28, 27, 26, 25, 24].includes(TotalValue())">
+                <h3 class="presentTitle">ちゃんず</h3>
+                <br>
+                <img src="./assets/resultTwo.png" alt="resultTwo" width="340px" height="170px"/>
+                <br>
+                <p class="letter">
+                    ちゃんずに似合うあなた，
+                    <br>
+                    クソコラが好きだったりしますか？かわいいしクソ上手い実力を持っている化け物化もしれませんね。キャパが多いか，すごく忙しい人かも。とにかく，コナで負けないほどガンガン激しい曲が好きなのかもです。もちろん，楽器は2個以上できるんでしょうね？それが「ちゃんず」だから。
+                </p>
+                <hr height="5px" color="#74a33d">
+                <p class="share">Twitterに共有</p>
+                <!-- Sharingbutton Twitter -->
+                    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=%ED%9E%88%EC%B9%B4%EB%A3%A8%EB%A1%9C%EB%B6%80%ED%84%B0%20%EB%8F%84%EC%B0%A9%ED%95%9C%20%ED%81%AC%EB%A6%AC%EC%8A%A4%EB%A7%88%EC%8A%A4%20%EC%84%A0%EB%AC%BC%2C%20%EB%82%98%EC%9D%98%20%EC%84%A0%EB%AC%BC%EC%9D%80%20%EC%A0%80%20%EC%82%B0%EC%9D%98%20%EA%BD%83&amp;url=https%3A%2F%2Fl1ghtn1ghtmare.netlify.app%2F" target="_blank" rel="noopener" aria-label="">
+                      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+                        </div>
+                      </div>
+                    </a>
+                </template>
+                
+                <!-- result 3 -->
+                <template v-if="[23, 22, 21, 20, 19, 18].includes(TotalValue())">
+                <h3 class="presentTitle">スワンプマン</h3>
+                <br>
+                <img src="./assets/resultThree.png" alt="resultThree" width="340px" height="170px"/>
+                <br>
+                <p class="letter">
+                    スワンプマンに似合うあなた，
+                    <br>
+                    もしかして… オタク？じゃなかったらすみません。とにかく，かわいいことではちゃんずに負けないあなた。おやつでは健康カムカムがいいです。おしゃれなのか，よく食べてるのか，頭がいいのか，年を取ってるのか，村人なのか全くキャラがつかめませんがとにかく，飲むのは適量がいいです。忘れないで。
+                </p>
+                <hr height="5px" color="#74a33d">
+                <p class="share">Twitterに共有</p>
+                <!-- Sharingbutton Twitter -->
+                    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=%ED%9E%88%EC%B9%B4%EB%A3%A8%EB%A1%9C%EB%B6%80%ED%84%B0%20%EB%8F%84%EC%B0%A9%ED%95%9C%20%ED%81%AC%EB%A6%AC%EC%8A%A4%EB%A7%88%EC%8A%A4%20%EC%84%A0%EB%AC%BC%2C%20%EB%82%98%EC%9D%98%20%EC%84%A0%EB%AC%BC%EC%9D%80%20%EC%A6%90%EA%B2%A8%EB%93%A3%EB%8A%94%20%EC%9D%8C%EB%B0%98&amp;url=https%3A%2F%2Fl1ghtn1ghtmare.netlify.app%2F" target="_blank" rel="noopener" aria-label="">
+                      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+                        </div>
+                      </div>
+                    </a>
+                </template>
+                
+                <!-- result 4 -->
+                <template v-if="[17, 16, 15, 14, 13, 12].includes(TotalValue())">
+                <h3 class="presentTitle">ジャムストロベリー</h3>
+                <br>
+                <img src="./assets/resultFour.png" alt="resultFour" width="340px" height="170px"/>
+                <br>
+                <p class="letter">
+                    ジャムストロベリーに似合うあなた，
+                    <br>
+                    結構甘い人かもしれません。もちろん，ジャムがストロベリーよりは甘いです。だいぶ落ち着いてる曲が好きなのでは？忙しくてまじめな生活をしているかもしれませんね。あなたは何となく，コナで「しょうもない」と言われない人である確率が高いと思いますが，さあ。
+                </p>
+                <hr height="5px" color="#74a33d">
+                <p class="share">Twitterに共有</p>
+                <!-- Sharingbutton Twitter -->
+                    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=%ED%9E%88%EC%B9%B4%EB%A3%A8%EB%A1%9C%EB%B6%80%ED%84%B0%20%EB%8F%84%EC%B0%A9%ED%95%9C%20%ED%81%AC%EB%A6%AC%EC%8A%A4%EB%A7%88%EC%8A%A4%20%EC%84%A0%EB%AC%BC%2C%20%EB%82%98%EC%9D%98%20%EC%84%A0%EB%AC%BC%EC%9D%80%20%EC%84%AC%EC%84%B8%ED%95%9C%20%ED%9E%88%EC%B9%B4%EB%A3%A8%20%EC%9D%B8%ED%98%95&amp;url=https%3A%2F%2Fl1ghtn1ghtmare.netlify.app%2F" target="_blank" rel="noopener" aria-label="">
+                      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+                        </div>
+                      </div>
+                    </a>
+                </template>
+                
+                <!-- result 5 -->
+                <template v-if="[11, 10, 9, 8, 7].includes(TotalValue())">
+                <h3 class="presentTitle">PAL</h3>
+                <br>
+                <img src="./assets/resultFive.png" alt="resultFive" width="340px" height="170px"/>
+                <br>
+                <p class="letter">
+                    PALに似合うあなた，
+                    <br>
+                    失恋話を語っている曲をよく聞いたりしませんか？もしかして，ドライフラワーが心の中で響いてたり… 人見知りでありながら，すごくすごい実力で演奏している人かもしれません。もし，面白いコイバナを持っている人材なら，ちゃんと聞かせてください。
+                    </p>
+                <hr height="5px" color="#74a33d">
+                <p class="share">Twitterに共有</p>
+                <!-- Sharingbutton Twitter -->
+                    <a class="resp-sharing-button__link" href="https://twitter.com/intent/tweet/?text=%ED%9E%88%EC%B9%B4%EB%A3%A8%EB%A1%9C%EB%B6%80%ED%84%B0%20%EB%8F%84%EC%B0%A9%ED%95%9C%20%ED%81%AC%EB%A6%AC%EC%8A%A4%EB%A7%88%EC%8A%A4%20%EC%84%A0%EB%AC%BC%2C%20%EB%82%98%EC%9D%98%20%EC%84%A0%EB%AC%BC%EC%9D%80%20%EC%9E%89%ED%81%AC%EC%99%80%20%ED%8E%9C&amp;url=https%3A%2F%2Fl1ghtn1ghtmare.netlify.app%2F" target="_blank" rel="noopener" aria-label="">
+                      <div class="resp-sharing-button resp-sharing-button--twitter resp-sharing-button--small"><div aria-hidden="true" class="resp-sharing-button__icon resp-sharing-button__icon--solid">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
+                        </div>
+                      </div>
+                    </a>
+                </template>
+                
+                
+				<p></p>
+				<a class="button" href="index.html">もう一度やる</a>
+				<!--/resultTitleBlock-->
+            </div>
+			<!--/quizCompetedResult-->
+
+		</transition>
+
+	</div>
+	<!--/questionBox-->
+
+</section>
+<!--/container-->
+<script type="text/javascript" src="script.js"></script>
+<script>
+
+
+</script>
+</body>
+</html>
